@@ -35,17 +35,24 @@ class SolverDFS(UninformedSolver):
             
             # expand the node
             for currMove in nextMoves:
+
                 self.gm.makeMove(currMove)
+
                 nextState = GameState(self.gm.getGameState(), currDepth + 1, currMove)
                 currState.children.append(nextState)
+
                 nextState.parent = currState
+
                 self.gm.reverseMove(currMove)
 
             # for each child of the current node, move to child if it's not been visited and change current state to child
             for currChild in currState.children:
+
                 if currChild not in self.visited:
-                    self.visited[currChild] = True
+
                     self.gm.makeMove(currChild.requiredMovable)
+                    self.visited[currChild] = True
+
                     self.currentState = currChild
 
                     break
