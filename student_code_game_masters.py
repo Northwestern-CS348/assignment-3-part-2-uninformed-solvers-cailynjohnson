@@ -50,11 +50,12 @@ class TowerOfHanoiGame(GameMaster):
             for currFact in self.kb.facts:
                 
                 # if the fact indicates a disk is on a peg
-                if currFact.statement.predicate == "on":
+                if currFact.statement.predicate == 'on':
                     
                     # get the disk and peg numbers
                     disk = currFact.statement.terms[0].term.element
                     peg = currFact.statement.terms[1].term.element
+
                     diskInt = int(disk[-1])
                     pegInt = int(peg[-1])
 
@@ -66,8 +67,10 @@ class TowerOfHanoiGame(GameMaster):
                         # add tuple of disk number to corresponding peg number tuple
                         if pegInt == 1:
                             peg1Tuple += tuple([diskInt])
+
                         elif pegInt == 2:
                             peg2Tuple += tuple([diskInt])
+
                         elif pegInt == 3:
                             peg3Tuple += tuple([diskInt])
 
@@ -116,26 +119,30 @@ class TowerOfHanoiGame(GameMaster):
 
         # INITIAL PEG CHANGES
         # retracts 'on' and 'top' initial peg facts
-        retractFacts.append(parse_input("fact: (on " + movableDisk + " " + initialPeg + ")"))
-        retractFacts.append(parse_input("fact: (top " + movableDisk + " " + initialPeg + ")"))
+        retractFacts.append(parse_input('fact: (on ' + movableDisk + ' ' + initialPeg + ')'))
+        retractFacts.append(parse_input('fact: (top ' + movableDisk + ' ' + initialPeg + ')'))
 
         initialPegTuple = currState[int(initialPeg[-1]) - 1]
+
         if len(initialPegTuple) > 1:
-            assertFacts.append(parse_input("fact: top disk" + str(initialPegTuple[1]) + " " + initialPeg + ")"))
+            assertFacts.append(parse_input('fact: top disk' + str(initialPegTuple[1]) + ' ' + initialPeg + ')'))
+        
         else:
-            assertFacts.append(parse_input("fact: (empty " + initialPeg + ")"))
+            assertFacts.append(parse_input('fact: (empty ' + initialPeg + ')'))
         
 
         # TARGET PEG CHANGES
         # asserts 'on' and 'top' target peg facts 
-        assertFacts.append(parse_input("fact: (on " + movableDisk + " " + targetPeg + ")"))
-        assertFacts.append(parse_input("fact: (top " + movableDisk + " " + targetPeg + ")"))
+        assertFacts.append(parse_input('fact: (on ' + movableDisk + ' ' + targetPeg + ')'))
+        assertFacts.append(parse_input('fact: (top ' + movableDisk + ' ' + targetPeg + ')'))
 
-        targetPegTuple = currState[int(targetPeg[-1]) - 1] 
+        targetPegTuple = currState[int(targetPeg[-1]) - 1]
+
         if len(targetPegTuple) == 0: 
-            retractFacts.append(parse_input("fact: (empty " + targetPeg + ")"))
+            retractFacts.append(parse_input('fact: (empty ' + targetPeg + ')'))
+        
         else:
-            retractFacts.append(parse_input("fact: top disk" + str(targetPegTuple[0]) + " " + targetPeg + ")"))
+            retractFacts.append(parse_input('fact: top disk' + str(targetPegTuple[0]) + ' ' + targetPeg + ')'))
 
 
         # RETRACT AND ASSERT
@@ -212,7 +219,7 @@ class Puzzle8Game(GameMaster):
                 for currFact in self.kb.facts:
 
                     # if the fact indicates the position of a tile
-                    if currFact.statement.predicate == "posn":
+                    if currFact.statement.predicate == 'posn':
 
                         # get the tile, column, and row terms 
                         tile = currFact.statement.terms[0].term.element
@@ -220,7 +227,7 @@ class Puzzle8Game(GameMaster):
                         row = currFact.statement.terms[2].term.element
 
                         # if the tile is not empty, get the tile, column, and row numbers
-                        if tile != "empty":
+                        if tile != 'empty':
                             tileInt = int(tile[-1])
                             columnInt = int(column[-1])
                             rowInt = int(row[-1])
@@ -239,8 +246,10 @@ class Puzzle8Game(GameMaster):
                             # add tuple of tile number to corresponding row number tuple
                             if rowInt == 1:
                                 row1Tuple += tuple([tileInt])
+
                             elif rowInt == 2:
                                 row2Tuple += tuple([tileInt])
+
                             elif rowInt == 3:
                                 row3Tuple += tuple([tileInt])
 
@@ -250,8 +259,10 @@ class Puzzle8Game(GameMaster):
 
                     if currRow == 1:
                         row1Tuple += tuple([-1])
+
                     elif currRow == 2:
                         row2Tuple += tuple([-1])
+
                     elif currRow == 3:
                         row3Tuple += tuple([-1])
 
@@ -291,14 +302,14 @@ class Puzzle8Game(GameMaster):
 
         # INITIAL PEG CHANGES
         # retracts facts with old positions for moved tile and empty tile
-        assertFacts.append(parse_input("fact: (posn  empty " + initialX + " " + initialY + ")"))
-        retractFacts.append(parse_input("fact: (posn " + movableTile + " " + initialX + " " + initialY + ")"))
+        assertFacts.append(parse_input('fact: (posn  empty ' + initialX + ' ' + initialY + ')'))
+        retractFacts.append(parse_input('fact: (posn ' + movableTile + ' ' + initialX + ' ' + initialY + ')'))
 
 
         # TARGET PEG CHANGES
         # asserts facts with new positions for moved tile and empty tile
-        retractFacts.append(parse_input("fact: (posn  empty " + targetX + " " + targetY + ")"))
-        assertFacts.append(parse_input("fact: (posn " + movableTile + " " + targetX + " " + targetY + ")"))
+        retractFacts.append(parse_input('fact: (posn  empty ' + targetX + ' ' + targetY + ')'))
+        assertFacts.append(parse_input('fact: (posn ' + movableTile + ' ' + targetX + ' ' + targetY + ')'))
 
 
         # RETRACTION AND ASSERTION
